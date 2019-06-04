@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.root {
+    height: 100%;
+    width: 100%;
+    line-height: 1.5em;
+    color: #e4e4e4;
+}
+
+.test {
+    color: rgba(35, 57, 177, 0.459);
+}
