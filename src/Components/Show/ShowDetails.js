@@ -8,7 +8,7 @@ function ShowDetails (props) {
                 <PosterImg src={`https://image.tmdb.org/t/p/w185${props.show.poster_path}`}/>
             </Left>
             <Right>
-                <Name>{props.show.name}</Name>
+                {/* <Name>{props.show.name}</Name> */}
                 <Overview>{props.show.overview}</Overview>
                 <Items>
                     <Item>Status: {props.show.status}</Item>

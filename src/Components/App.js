@@ -15,6 +15,10 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
+const Main = styled.div`
+    padding-top: 50px; /* to account for topnav height */
+`;
+
 function App () {
     useEffect(() => {
         API.auth();
@@ -23,13 +27,15 @@ function App () {
     return (
         <Wrapper>
             <TopNav />
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={Login} />
-                <Route path="/logout" component={Logout} />
-                <Route path="/createAccount" component={CreateAccount} />
-                <Route path="/show" component={Show} />
-            </Switch>
+            <Main>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/logout" component={Logout} />
+                    <Route path="/createAccount" component={CreateAccount} />
+                    <Route path="/show" component={Show} />
+                </Switch>
+            </Main>
         </Wrapper>
     );
 }

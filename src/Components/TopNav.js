@@ -7,6 +7,10 @@ const Wrapper = styled.div`
     height: 50px;
     width: 100%;
     background: #222222;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    z-index: 2;
 `;
 
 const StyledLink = styled(Link)`
@@ -14,10 +18,18 @@ const StyledLink = styled(Link)`
     color: inherit;
 `;
 
-const LoginBtn = styled(StyledLink)``;
-const LogoutBtn = styled(StyledLink)``;
-const CreateActBtn = styled(StyledLink)``;
-const HomeBtn = styled(StyledLink)``;
+const Button = styled(StyledLink)`
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 3px;
+    padding: 5px;
+    background: #333333;
+    transition: 0.3s;
+
+    :hover {
+        background: #444444;
+    }
+`;
 
 function TopNav () {
     const userLoggedIn = useSelector(state => state.userLoggedIn)
@@ -25,13 +37,13 @@ function TopNav () {
 
     return (
         <Wrapper>
-            <HomeBtn to={'/'}>Home</HomeBtn>
+            <Button to={'/'}>Home</Button>
             {userLoggedIn && loginStatusSet &&
-                <LogoutBtn to={'/logout'}>Logout</LogoutBtn>
+                <Button to={'/logout'}>Logout</Button>
             || loginStatusSet &&
                 <React.Fragment>
-                    <LoginBtn to={'/login'}>Login</LoginBtn>
-                    <CreateActBtn to={'/createAccount'}>Create Account</CreateActBtn>
+                    <Button to={'/login'}>Login</Button>
+                    <Button to={'/createAccount'}>Create Account</Button>
                 </React.Fragment>
             }
         </Wrapper>

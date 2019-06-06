@@ -20,6 +20,7 @@ function Show () {
             {activeShow &&
                 <React.Fragment>
                     <BackgroundImg url={`https://image.tmdb.org/t/p/original${activeShow.backdrop_path}`} />
+                    <Title>{activeShow.name}</Title>
                     <ShowInfo>
                         <Content>
                             <ShowDetails show={activeShow} />
@@ -38,6 +39,17 @@ export default Show;
 // styles
 
 const Wrapper = styled.div``;
+
+const Title = styled.div`
+    font-size: 100px;
+    font-weight: bold;
+    position: absolute;
+    top: 70%;
+    width: 100%;
+    text-align: center;
+    /* text-shadow: 0px 0px 3px #000; */
+    text-shadow: 0px 0px 10px #000000;
+`;
 
 const BackgroundImg = styled.div`
     background-image: url(${props => props.url});
