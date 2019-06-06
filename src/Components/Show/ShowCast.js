@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 function ShowCast (props) {
@@ -15,6 +16,7 @@ function ShowCast (props) {
                                 <CastPhoto src={`https://image.tmdb.org/t/p/w185${castMember.profile_path}`} />
                                 <CastName>{castMember.name}</CastName>
                                 <CharacterName>{castMember.character}</CharacterName>
+                                <ClickZone to={`/person?name=${castMember.name.replace(/\s+/g, '-').toLowerCase()}&id=${castMember.id}`} />
                             </CastMember>
                         );
                     })
@@ -51,6 +53,7 @@ const CastMember = styled.div`
     background: #222222;
     cursor: pointer;
     width: 185px;
+    position: relative;
 `;
 
 const CastPhoto = styled.img`
@@ -84,5 +87,19 @@ const SetShowAmtBtn = styled.div`
 
     :hover {
         background: #333333;
+    }
+`;
+
+const ClickZone = styled(Link)`
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transition: 0.3s;
+    cursor: pointer;
+
+    :hover {
+        background: rgba(35, 57, 177, 0.459);
     }
 `;

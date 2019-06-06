@@ -67,6 +67,16 @@ export function getTrending () {
     .catch((error) => {console.log(error)});
 }
 
+export function getAiringToday () {
+    // get trending shows data and save to store
+    const url = `https://api.themoviedb.org/3/tv/airing_today?api_key=${apiKey}`;
+    axios.get(url)
+    .then((response) => {
+        store.dispatch({ type: "SET_AIRING_TODAY", payload: response.data.results });
+    })
+    .catch((error) => {console.log(error)});
+}
+
 export function getShow (id) {
     // get details for a specific show
 
@@ -77,6 +87,20 @@ export function getShow (id) {
     axios.get(url)
     .then((response) => {
         store.dispatch({ type: "SET_ACTIVE_SHOW", payload: response.data });
+    })
+    .catch((error) => {console.log(error)});
+}
+
+export function getPerson (id) {
+    // get details for a specific person
+
+    // clear first to prevent old active show from showing while new one waits for request
+    store.dispatch({ type: "SET_ACTIVE_PERSON", payload: null });
+    
+    const url = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=credits`;
+    axios.get(url)
+    .then((response) => {
+        store.dispatch({ type: "SET_ACTIVE_PERSON", payload: response.data });
     })
     .catch((error) => {console.log(error)});
 }

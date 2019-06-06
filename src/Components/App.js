@@ -8,6 +8,7 @@ import Login from './Login';
 import Logout from './Logout';
 import Show from './Show/Show';
 import CreateAccount from './CreateAccount';
+import Person from './Person';
 
 const Wrapper = styled.div`
     background: #111111;
@@ -34,6 +35,7 @@ function App () {
                     <Route path="/logout" component={Logout} />
                     <Route path="/createAccount" component={CreateAccount} />
                     <Route path="/show" component={Show} />
+                    <Route path="/person" component={Person} />
                 </Switch>
             </Main>
         </Wrapper>

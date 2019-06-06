@@ -4,18 +4,18 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as API from '../../API'
 
-function TrendingShows (props) {
-    const trendingShows = useSelector(state => state.trendingShows);
-    
+function AiringToday (props) {
+    const airingToday = useSelector(state => state.airingToday);
+
     useEffect(() => {
-        API.getTrending();
+        API.getAiringToday();
     }, []);
 
     return (
         <Wrapper>
-            <Title>Trending</Title>
+            <Title>Airing Today</Title>
             <ShowsContainer>
-                {trendingShows.map((show) => {
+                {airingToday.map((show) => {
                     return (
                         <Show key={show.id}>
                             <PosterImg src={`https://image.tmdb.org/t/p/w185/${show.poster_path}`}/>
@@ -29,10 +29,9 @@ function TrendingShows (props) {
     );
 }
 
-export default TrendingShows;
+export default AiringToday;
 
 // styles
-
 
 const Wrapper = styled.div`
     display: flex;
