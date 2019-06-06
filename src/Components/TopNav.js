@@ -21,13 +21,14 @@ const HomeBtn = styled(StyledLink)``;
 
 function TopNav () {
     const userLoggedIn = useSelector(state => state.userLoggedIn)
+    const loginStatusSet = useSelector(state => state.loginStatusSet)
 
     return (
         <Wrapper>
             <HomeBtn to={'/'}>Home</HomeBtn>
-            {userLoggedIn &&
+            {userLoggedIn && loginStatusSet &&
                 <LogoutBtn to={'/logout'}>Logout</LogoutBtn>
-            || 
+            || loginStatusSet &&
                 <React.Fragment>
                     <LoginBtn to={'/login'}>Login</LoginBtn>
                     <CreateActBtn to={'/createAccount'}>Create Account</CreateActBtn>

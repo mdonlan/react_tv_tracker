@@ -11,7 +11,6 @@ const styledLink = styled(Link)`
 const LogoutBtn = styled(styledLink)``;
 
 function Logout () {
-
     return (
         <Wrapper>
             <LogoutBtn to={'/home'} onClick={() => {API.logout()}}>Logout</LogoutBtn>

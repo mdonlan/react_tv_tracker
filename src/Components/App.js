@@ -16,7 +16,6 @@ const Wrapper = styled.div`
 `;
 
 function App () {
-
     useEffect(() => {
         API.auth();
     }, []);

@@ -26,17 +26,23 @@ export function auth () {
 export function signup (email, pass) {
     // use firebase auth to create a new user account
     firebase.auth().createUserWithEmailAndPassword(email, pass)
-        .then((user) => {
-            // after account is created add the user to the db
-            firebase.firestore().collection("users").doc(user.user.uid).set({
-                uid: user.user.uid,
-                shows: []
-            })
-            .then(() => {})
-            .catch((error) => {});
+    .then((user) => {
+        // after account is created add the user to the db
+        firebase.firestore().collection("users").doc(user.user.uid).set({
+            uid: user.user.uid,
+            shows: []
         })
-        .catch((error) => {console.log(error)});
+        .then(() => {})
+        .catch((error) => {});
+    })
+    .catch((error) => {console.log(error)});
 }
+
+// export function login (email, password, history) {
+//     return firebase.auth().signInWithEmailAndPassword(email, password)
+//     .then((response) => { return true })
+//     .catch(function(error) { console.log(error); return false})
+// }
 
 export function logout () {
     // signs the user out
@@ -63,6 +69,10 @@ export function getTrending () {
 
 export function getShow (id) {
     // get details for a specific show
+
+    // clear show first to prevent old active show from showing while new one waits for request
+    store.dispatch({ type: "SET_ACTIVE_SHOW", payload: null });
+    
     const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`;
     axios.get(url)
     .then((response) => {

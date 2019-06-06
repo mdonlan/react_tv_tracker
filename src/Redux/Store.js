@@ -3,7 +3,8 @@ import { createStore } from "redux";
 const initialState = {
     userLoggedIn: false,
     trendingShows: [],
-    activeShow: null
+    activeShow: null,
+    loginStatusSet: false
 };
 
 function reducer (state = initialState, action) {
@@ -11,7 +12,8 @@ function reducer (state = initialState, action) {
         case "SET_USER_LOGGED_IN": 
             return {
                 ...state,
-                userLoggedIn: action.payload
+                userLoggedIn: action.payload,
+                loginStatusSet: true
             };
         case "SET_TRENDING_SHOWS": 
             return {

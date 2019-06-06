@@ -52,9 +52,8 @@ const ClickZone = styled(Link)`
     }
 `;
 
-function TrendingShows () {
+function TrendingShows (props) {
     const trendingShows = useSelector(state => state.trendingShows)
-
     useEffect(() => {
         API.getTrending();
     }, []);
