@@ -2,12 +2,18 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as API from '../API'
+import * as API from '../../API'
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+`;
+
+const Title = styled.div`
+    font-size: 32px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 `;
 
 const ShowsContainer = styled.div`
@@ -60,14 +66,14 @@ function TrendingShows (props) {
 
     return (
         <Wrapper>
-            <div>trending</div>
+            <Title>Trending</Title>
             <ShowsContainer>
                 {trendingShows.map((show) => {
                     return (
                         <Show key={show.id}>
                             <PosterImg src={`https://image.tmdb.org/t/p/w185/${show.poster_path}`}/>
                             <Name>{show.name}</Name>
-                            <ClickZone to={`/show?name=${show.name}&id=${show.id}`}/>
+                            <ClickZone to={`/show?name=${show.name.replace(/\s+/g, '-').toLowerCase()}&id=${show.id}`}/>
                         </Show>
                     )
                 })}

@@ -73,7 +73,7 @@ export function getShow (id) {
     // clear show first to prevent old active show from showing while new one waits for request
     store.dispatch({ type: "SET_ACTIVE_SHOW", payload: null });
     
-    const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`;
+    const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`;
     axios.get(url)
     .then((response) => {
         store.dispatch({ type: "SET_ACTIVE_SHOW", payload: response.data });

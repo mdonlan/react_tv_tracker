@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700&display=swap');
+
 html, body {
     height: 100%;
     width: 100%;
     padding: 0px;
     margin: 0px;
+    font-family: 'Work Sans', sans-serif;
 }
 
 .root {
