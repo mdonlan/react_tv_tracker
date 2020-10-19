@@ -12,7 +12,7 @@ function Show () {
 
     useEffect(() => {
         const urlParams = queryString.parse(location.search);
-        API.getShow(urlParams.id);
+        API.set_active_show(urlParams.id);
     }, []);
 
     return (

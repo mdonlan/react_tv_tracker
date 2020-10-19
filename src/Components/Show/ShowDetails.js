@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { add_favorite, remove_favorite } from "../../API"
 
 function ShowDetails (props) {
+    const favorites = useSelector(state => state.user_favorites);
+    const [is_favorite, set_is_favorite] = useState(false);
+
+    useEffect(() => {
+        favorites.forEach(f => {
+            console.log('blah')
+            if (f.id == props.show.id) {
+                console.log('show is a favorite')
+                set_is_favorite(true);
+            }
+        })
+    }, favorites);
+
     return (
         <Wrapper>
             <Left>
@@ -17,6 +32,12 @@ function ShowDetails (props) {
                     <Item># Seasons: {props.show.number_of_seasons}</Item>
                     <Item>Genre: {props.show.genres.map(item => item.name).join(', ')}</Item>
                 </Items>
+                {!is_favorite &&
+                    <Add_Favorite_Btn onClick={() => {add_favorite(props.show.id)}}>Add to Favorites</Add_Favorite_Btn>    
+                }
+                {is_favorite &&
+                    <Remove_Favorite_Btn onClick={() => {remove_favorite(props.show.id)}}>Remove From Favorites</Remove_Favorite_Btn>
+                }
             </Right>
         </Wrapper>
     )
@@ -61,3 +82,29 @@ const Item = styled.div`
     padding: 5px;
     border-radius: 3px;
 `;
+
+const Add_Favorite_Btn = styled.div`
+    background: #32a852;
+    margin: 5px;
+    padding: 5px;
+    width: 185px;
+    text-align: center;
+    cursor: pointer;
+
+    :hover {
+        background: #3ed667;
+    }
+`
+
+const Remove_Favorite_Btn = styled.div`
+    background: #a64030;
+    margin: 5px;
+    padding: 5px;
+    width: 185px;
+    text-align: center;
+    cursor: pointer;
+
+    :hover {
+        background: #d1513d;
+    }
+`

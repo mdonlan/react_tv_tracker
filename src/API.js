@@ -5,6 +5,7 @@ import firebase from '../firebaseConfig'
 import store from './Redux/Store'
 import axios from 'axios'
 import { apiKey } from './apiKey';
+import { useSelector } from 'react-redux';
 
 //
 // FIREBASE
@@ -15,7 +16,9 @@ export function auth () {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log("auth watcher -- user is logged in");
+            store.dispatch({type: 'SET_DB_UID', payload: user.uid});
             store.dispatch({ type: 'SET_USER_LOGGED_IN', payload: true });
+            get_favorites();
         } else {
             console.log("auth watcher -- user is NOT logged in");
             store.dispatch({ type: 'SET_USER_LOGGED_IN', payload: false });
@@ -53,6 +56,52 @@ export function logout () {
       });
 }
 
+export function add_favorite(show_id) {
+    console.log("adding a favorite -> show_id: " + show_id);
+
+    const state = store.getState();
+    console.log(state.db_uid)
+    const ref = firebase.firestore().collection("users").doc(state.db_uid);
+    // ref.get().then(function(doc) {
+    //     if (doc.exists) {
+    //         console.log(doc.data())
+    //     }
+    // })
+
+    // console.log(ref);
+    
+    ref.update({
+        shows: firebase.firestore.FieldValue.arrayUnion(show_id)
+    });
+    
+}
+
+export function remove_favorite() {
+    console.log('removing a favorite')
+}
+
+export async function get_favorites() {
+    const state = store.getState();
+    console.log(state.db_uid)
+    if (state.db_uid) {
+        const ref = firebase.firestore().collection("users").doc(state.db_uid);
+        ref.get().then(doc => {
+            if (doc.exists) {
+                const show_ids = doc.data();
+                const shows = [];
+                show_ids.forEach(async id => {
+                    const show_data = await get_show_by_id(id);
+                    shows.push(show_data);
+                })
+                console.log(shows);
+            }
+        })
+    }
+    
+
+    // console.log(ref);
+}
+
 //
 // TMDB
 //
@@ -77,18 +126,24 @@ export function getAiringToday () {
     .catch((error) => {console.log(error)});
 }
 
-export function getShow (id) {
-    // get details for a specific show
-
+export function set_active_show(id) {
     // clear show first to prevent old active show from showing while new one waits for request
     store.dispatch({ type: "SET_ACTIVE_SHOW", payload: null });
-    
     const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`;
     axios.get(url)
     .then((response) => {
         store.dispatch({ type: "SET_ACTIVE_SHOW", payload: response.data });
     })
     .catch((error) => {console.log(error)});
+}
+
+export async function get_show_by_id(id) {
+    const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`;
+    return axios.get(url)
+    .then(res => {
+        return res.data;
+    })
+    .catch(e => {console.log(e) });
 }
 
 export function getPerson (id) {

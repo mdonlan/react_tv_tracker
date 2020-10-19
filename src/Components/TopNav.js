@@ -39,7 +39,10 @@ function TopNav () {
         <Wrapper>
             <Button to={'/'}>Home</Button>
             {userLoggedIn && loginStatusSet &&
-                <Button to={'/logout'}>Logout</Button>
+                <React.Fragment>
+                    <Button to={'/logout'}>Logout</Button>
+                    <Button to={'/favorites'}>Favorites</Button>
+                </React.Fragment>
             || loginStatusSet &&
                 <React.Fragment>
                     <Button to={'/login'}>Login</Button>

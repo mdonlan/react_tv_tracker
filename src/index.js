@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from "react-router-dom";
 import { QueryParamProvider } from 'use-query-params';
 
+import "regenerator-runtime/runtime.js"; // needed for async
+
 import App from './Components/App';
 import store from './Redux/Store';
 

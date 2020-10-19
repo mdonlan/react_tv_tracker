@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as API from '../../API'
 
-function AiringToday (props) {
+function AiringToday () {
     const airingToday = useSelector(state => state.airingToday);
 
     useEffect(() => {
@@ -30,8 +30,6 @@ function AiringToday (props) {
 }
 
 export default AiringToday;
-
-// styles
 
 const Wrapper = styled.div`
     display: flex;

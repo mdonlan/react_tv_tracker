@@ -9,6 +9,8 @@ import Logout from './Logout';
 import Show from './Show/Show';
 import CreateAccount from './CreateAccount';
 import Person from './Person';
+import { Tracker } from './Tracker'
+import { Favorites } from './Favorites'
 
 const Wrapper = styled.div`
     background: #111111;
@@ -36,6 +38,8 @@ function App () {
                     <Route path="/createAccount" component={CreateAccount} />
                     <Route path="/show" component={Show} />
                     <Route path="/person" component={Person} />
+                    <Route path="/tracker" component={Tracker} />
+                    <Route path="/favorites" component={Favorites} />
                 </Switch>
             </Main>
         </Wrapper>

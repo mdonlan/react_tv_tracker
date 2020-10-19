@@ -6,7 +6,9 @@ const initialState = {
     airingToday: [],
     activeShow: null,
     loginStatusSet: false,
-    activePerson: null
+    activePerson: null,
+    db_uid: null,
+    user_favorites: []
 };
 
 function reducer (state = initialState, action) {
@@ -36,6 +38,16 @@ function reducer (state = initialState, action) {
             return {
                 ...state,
                 activePerson: action.payload
+            };
+        case "SET_DB_UID": 
+            return {
+                ...state,
+                db_uid: action.payload
+            };
+        case "SET_USER_FAVORITES": 
+            return {
+                ...state,
+                user_favorites: action.payload
             };
         default:
             return state;
