@@ -42,6 +42,7 @@ function TopNav () {
                 <React.Fragment>
                     <Button to={'/logout'}>Logout</Button>
                     <Button to={'/favorites'}>Favorites</Button>
+                    <Button to={'/tracker'}>Tracker</Button>
                 </React.Fragment>
             || loginStatusSet &&
                 <React.Fragment>

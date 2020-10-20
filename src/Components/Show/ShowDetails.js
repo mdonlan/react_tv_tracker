@@ -8,14 +8,15 @@ function ShowDetails (props) {
     const [is_favorite, set_is_favorite] = useState(false);
 
     useEffect(() => {
+        set_is_favorite(false);
         favorites.forEach(f => {
-            console.log('blah')
             if (f.id == props.show.id) {
                 console.log('show is a favorite')
                 set_is_favorite(true);
+            } else {
             }
         })
-    }, favorites);
+    }, [favorites]);
 
     return (
         <Wrapper>

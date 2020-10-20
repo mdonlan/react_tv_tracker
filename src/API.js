@@ -60,24 +60,27 @@ export function add_favorite(show_id) {
     console.log("adding a favorite -> show_id: " + show_id);
 
     const state = store.getState();
-    console.log(state.db_uid)
     const ref = firebase.firestore().collection("users").doc(state.db_uid);
-    // ref.get().then(function(doc) {
-    //     if (doc.exists) {
-    //         console.log(doc.data())
-    //     }
-    // })
-
-    // console.log(ref);
     
     ref.update({
         shows: firebase.firestore.FieldValue.arrayUnion(show_id)
-    });
+    }).then(() => {
+        get_favorites();
+    })
     
 }
 
-export function remove_favorite() {
+export function remove_favorite(show_id) {
     console.log('removing a favorite')
+
+    const state = store.getState();
+    const ref = firebase.firestore().collection("users").doc(state.db_uid);
+    
+    ref.update({
+        shows: firebase.firestore.FieldValue.arrayRemove(show_id)
+    }).then(() => {
+        get_favorites();
+    })
 }
 
 export async function get_favorites() {
@@ -85,15 +88,17 @@ export async function get_favorites() {
     console.log(state.db_uid)
     if (state.db_uid) {
         const ref = firebase.firestore().collection("users").doc(state.db_uid);
-        ref.get().then(doc => {
+        ref.get().then(async doc => {
             if (doc.exists) {
-                const show_ids = doc.data();
+                const show_ids = doc.data().shows;
+                console.log(show_ids)
                 const shows = [];
-                show_ids.forEach(async id => {
-                    const show_data = await get_show_by_id(id);
+                for (let i = 0; i < show_ids.length; i++) {
+                    const show_data = await get_show_by_id(show_ids[i]);
                     shows.push(show_data);
-                })
+                }
                 console.log(shows);
+                store.dispatch({ type: "SET_USER_FAVORITES", payload: shows });
             }
         })
     }
@@ -141,6 +146,7 @@ export async function get_show_by_id(id) {
     const url = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=credits`;
     return axios.get(url)
     .then(res => {
+        // console.log(res);
         return res.data;
     })
     .catch(e => {console.log(e) });
@@ -158,4 +164,16 @@ export function getPerson (id) {
         store.dispatch({ type: "SET_ACTIVE_PERSON", payload: response.data });
     })
     .catch((error) => {console.log(error)});
+}
+
+//
+// TV MAZE API
+//
+
+function get_show_airtime(show_name) {
+    const url = 'https://api.tvmaze.com/singlesearch/shows?q=' + show_name + '&embed=episodes';
+    axios.get(url)
+    .then(res => {
+        console.log(res.data);
+    })
 }
