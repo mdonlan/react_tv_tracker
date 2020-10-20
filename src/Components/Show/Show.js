@@ -41,10 +41,9 @@ export default Show;
 const Wrapper = styled.div``;
 
 const Title = styled.div`
+    margin-top: -60px;
     font-size: 100px;
     font-weight: bold;
-    position: absolute;
-    top: 70%;
     width: 100%;
     text-align: center;
     /* text-shadow: 0px 0px 3px #000; */

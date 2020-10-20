@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as API from '../../API'
+// import show_placeholder from '../../Assets/show_placeholder.jpg';
 
 function AiringToday () {
     const airingToday = useSelector(state => state.airingToday);
@@ -18,7 +19,12 @@ function AiringToday () {
                 {airingToday.map((show) => {
                     return (
                         <Show key={show.id}>
-                            <PosterImg src={`https://image.tmdb.org/t/p/w185/${show.poster_path}`}/>
+                            {show.poster_path &&
+                                <PosterImg src={`https://image.tmdb.org/t/p/w185/${show.poster_path}`}/>
+                            }
+                            {!show.poster_path &&
+                                <PosterImg src="https://via.placeholder.com/150" />
+                            }
                             <Name>{show.name}</Name>
                             <ClickZone to={`/show?name=${show.name.replace(/\s+/g, '-').toLowerCase()}&id=${show.id}`}/>
                         </Show>

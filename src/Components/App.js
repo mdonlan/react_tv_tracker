@@ -1,7 +1,7 @@
 import React , { useEffect } from 'react'
 import styled from 'styled-components'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import Home from './Home/Home'
+import {Home} from './Home/Home'
 import * as API from '../API'
 import TopNav from './TopNav';
 import Login from './Login';
@@ -14,11 +14,13 @@ import { Favorites } from './Favorites'
 
 const Wrapper = styled.div`
     background: #111111;
-    min-height: 100%;
+    overflow: auto;
+    height: auto;
     width: 100%;
 `;
 
 const Main = styled.div`
+    height: calc(100% - 50px);
     padding-top: 50px; /* to account for topnav height */
 `;
 

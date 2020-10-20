@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { find_favorites_airing_this_week } from "../API"
 
@@ -86,16 +87,17 @@ export function Tracker() {
 
     return (
         <Wrapper>
-            <div>tracker</div>
+            <Title>Favorites Tracker</Title>
             <Weekly_Wrapper>
                 {days_this_week.map(day => {
                     return (
                         <Day key={day.full_date}>
-                            <div>{day.full_date}</div>
+                            <Day_Title>{day.full_date}</Day_Title>
                             {day.episodes.map(e => {
                                 const show = favorites.find(elem => elem.id == e.show_id);
                                 return (
                                     <Episode key={e.name}>
+                                        <Click_Zone to={`/show?name=${show.name.replace(/\s+/g, '-').toLowerCase()}&id=${show.id}`} />
                                         <Show_Name>{show.name}</Show_Name>
                                         <Episode_Name>{e.name}</Episode_Name>
                                     </Episode>
@@ -109,23 +111,54 @@ export function Tracker() {
     )
 }
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+`
+
+const Title = styled.div`
+    font-size: 32px;
+    margin-top: 50px;
+`
 
 const Weekly_Wrapper = styled.div`
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
+    margin-top: 100px;
     height: calc(100% - 100px);
+    width: 100%;
 `
 
 const Day = styled.div`
     width: 13%;
     height: 100%;
-    max-height: 600px;
+    max-height: 500px;
     border: 1px #dddddd solid;
 `
 
+const Day_Title = styled.div`
+    text-align: center;
+    border-bottom: 1px solid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+`
+
 const Episode = styled.div`
-    margin-top: 8px;
+    position: relative;
+    color: #dddddd;
+    text-decoration: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 5px;
+    cursor: pointer;
+
+    :hover {
+        background: rgba(30, 30, 30, 0.8);
+    }
 `
 
 const Show_Name = styled.div`
@@ -135,4 +168,10 @@ const Show_Name = styled.div`
 const Episode_Name = styled.div`
     font-size: 12px;
     color: #878787;
+`
+
+const Click_Zone = styled(Link)`
+    height: 100%;
+    width: 100%;
+    position: absolute;
 `
