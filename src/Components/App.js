@@ -1,16 +1,17 @@
 import React , { useEffect } from 'react'
 import styled from 'styled-components'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import {Home} from './Home/Home'
 import * as API from '../API'
-import TopNav from './TopNav';
-import Login from './Login';
+import { TopNav } from './TopNav';
+import { Login } from './Login';
 import Logout from './Logout';
 import Show from './Show/Show';
-import CreateAccount from './CreateAccount';
-import Person from './Person';
+import { Create_Account } from './CreateAccount';
+import { Person } from './Person';
 import { Tracker } from './Tracker'
-import { Favorites } from './Favorites'
+import { Favorites } from './Home/Favorites'
+import { useSelector } from 'react-redux'
 
 const Wrapper = styled.div`
     background: #111111;
@@ -24,7 +25,11 @@ const Main = styled.div`
     padding-top: 50px; /* to account for topnav height */
 `;
 
-function App () {
+export function App () {
+
+    const is_logged_in = useSelector(state => state.userLoggedIn);
+    const history = useHistory();
+
     useEffect(() => {
         API.auth();
     }, []);
@@ -35,9 +40,18 @@ function App () {
             <Main>
                 <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route path="/login" component={Login} />
+                    {/* <Route path="/login" component={Login} /> */}
+                    <Route path="/login" render={() => {
+                        if(is_logged_in) {
+                                return (
+                                    <Redirect to='/'/>
+                                )
+                        } else {
+                            return (<Login />)
+                        }
+                    }} />
                     <Route path="/logout" component={Logout} />
-                    <Route path="/createAccount" component={CreateAccount} />
+                    <Route path="/createAccount" component={Create_Account} />
                     <Route path="/show" component={Show} />
                     <Route path="/person" component={Person} />
                     <Route path="/tracker" component={Tracker} />
@@ -48,4 +62,4 @@ function App () {
     );
 }
 
-export default withRouter(App);
+// export default withRouter(App);

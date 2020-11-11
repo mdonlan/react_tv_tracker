@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import { JsonParam } from 'use-query-params';
 import { find_favorites_airing_this_week } from "../API"
 
 export function Tracker() {
     const favorites = useSelector(state => state.user_favorites);
     const [days_this_week, set_days_this_week] = useState([]);
+    const [found_episode_data, set_found_episode_data] = useState(false);
 
     useEffect(() => {
         create_week();
         find_favorites_airing_this_week();
-    }, [favorites]);
+    }, [favorites, found_episode_data]);
 
     function find_favorites_airing_this_week() {
         const episodes_this_week = [];
         const one_day = 24*60*60*1000; // hours*minutes*seconds*milliseconds
         const today = new Date();
-    
-        favorites.forEach(f => {
 
+        favorites.forEach(f => {
             if (f.last_episode_to_air) {
                 const last_episode_date = new Date(f.last_episode_to_air.air_date);
                 const days_diff = Math.round(Math.abs((today.getTime() - last_episode_date.getTime())/(one_day)));
@@ -37,13 +38,15 @@ export function Tracker() {
             }
         })
     
-        console.log("episodes_this_week", episodes_this_week)
-
         episodes_this_week.forEach(e => {
             const episode_date = new Date(e.air_date);
             days_this_week.forEach((day, i) => {
                 const days_diff = Math.round(Math.abs((day.date.getTime() - episode_date.getTime())/(one_day) - 1)); // why do we need to -1 here? it seems like its off by one day?????
                 if (days_diff == 0) {
+                    day.episodes.push(e);
+                }
+
+                if (i == episodes_this_week.length) {
                     set_days_this_week(days_this_week => {
                         days_this_week[i].episodes.push(e);
                         return days_this_week;
@@ -51,6 +54,8 @@ export function Tracker() {
                 }
             })
         })
+
+        set_found_episode_data(true);
     }
 
     function create_week() {
@@ -89,10 +94,10 @@ export function Tracker() {
         <Wrapper>
             <Title>Favorites Tracker</Title>
             <Weekly_Wrapper>
-                {days_this_week.map(day => {
+                {days_this_week.map((day, i) => {
                     return (
-                        <Day key={day.full_date}>
-                            <Day_Title>{day.full_date}</Day_Title>
+                        <Day key={day.full_date} i={i}>
+                            <Day_Title i={i}>{day.full_date}</Day_Title>
                             {day.episodes.map(e => {
                                 const show = favorites.find(elem => elem.id == e.show_id);
                                 return (
@@ -137,14 +142,15 @@ const Day = styled.div`
     width: 13%;
     height: 100%;
     max-height: 500px;
-    border: 1px #dddddd solid;
+    border: 1px ${props => props.i == 3 ? '#dddddd' : '#444444'} solid;
 `
 
 const Day_Title = styled.div`
     text-align: center;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid ${props => props.i == 3 ? '#dddddd' : '#444444'};
     padding-top: 5px;
     padding-bottom: 5px;
+    color: ${props => props.i == 3 ? '#dddddd' : '#444444'};
 `
 
 const Episode = styled.div`

@@ -36,8 +36,6 @@ function Show () {
 
 export default Show;
 
-// styles
-
 const Wrapper = styled.div``;
 
 const Title = styled.div`
@@ -46,7 +44,6 @@ const Title = styled.div`
     font-weight: bold;
     width: 100%;
     text-align: center;
-    /* text-shadow: 0px 0px 3px #000; */
     text-shadow: 0px 0px 10px #000000;
 `;
 

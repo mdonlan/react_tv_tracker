@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { get_favorites } from '../API'
+import { get_favorites } from '../../API'
 import styled from "styled-components"
 import { Link } from 'react-router-dom'
 
@@ -9,7 +9,6 @@ export function Favorites() {
     
     return (
         <Wrapper>
-            <div>favorites</div>
             {favorites.length > 0 &&
                 favorites.map(show => {
                     return (

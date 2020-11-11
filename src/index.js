@@ -6,7 +6,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 import "regenerator-runtime/runtime.js"; // needed for async
 
-import App from './Components/App';
+import { App } from './Components/App';
 import store from './Redux/Store';
 
 ReactDOM.render(

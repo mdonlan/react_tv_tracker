@@ -16,7 +16,12 @@ export function Trending (props) {
             {trendingShows.map((show) => {
                 return (
                     <Show key={show.id}>
-                        <PosterImg src={`https://image.tmdb.org/t/p/w400/${show.backdrop_path}`}/>
+                        {show.backdrop_path &&
+                            <PosterImg src={`https://image.tmdb.org/t/p/w400/${show.backdrop_path}`}/>
+                        }
+                        {!show.backdrop_path &&
+                            <PosterImg src={'src/assets/not_found.png'}/>
+                        }
                         <Text>
                             <Name>{show.name}</Name>
                             <Vote_Score>{show.vote_average}</Vote_Score>
@@ -30,11 +35,6 @@ export function Trending (props) {
 }
 
 const Wrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-`;
-
-const ShowsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;

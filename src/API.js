@@ -26,7 +26,17 @@ export function auth () {
     });
 }
 
-export function signup (email, pass) {
+export function login(email, pass, props, set_error_msg) {
+    firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then((response) => { 
+        props.history.push('/');
+    })
+    .catch(function(error) { 
+        set_error_msg(error.message);
+    })
+}
+
+export function create_user_account (email, pass) {
     // use firebase auth to create a new user account
     firebase.auth().createUserWithEmailAndPassword(email, pass)
     .then((user) => {

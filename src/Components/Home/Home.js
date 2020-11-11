@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Trending } from './Trending';
 import AiringToday from './AiringToday';
+import { Favorites } from './Favorites'
 
 export function Home () {
 
@@ -12,8 +13,8 @@ export function Home () {
             <Left>
                 <Nav>
                     <Nav_Item active={view_mode == "trending" ? true : false} onClick={() => { set_view_mode("trending") }}>Trending</Nav_Item>
-                    <Nav_Item active={view_mode == "popular" ? true : false} onClick={() => { set_view_mode("popular") }}>Popular</Nav_Item>
                     <Nav_Item active={view_mode == "airing_today" ? true : false} onClick={() => { set_view_mode("airing_today") }}>Airing Today</Nav_Item>
+                    <Nav_Item active={view_mode == "favorites" ? true : false} onClick={() => { set_view_mode("favorites") }}>Favorites</Nav_Item>
                 </Nav>
             </Left>
             <Right>
@@ -23,6 +24,9 @@ export function Home () {
                 {view_mode == "airing_today" &&
                     <AiringToday />
                 }
+                {view_mode == "favorites" &&
+                    <Favorites />
+                }
             </Right>
         </Wrapper>
     );
@@ -30,6 +34,7 @@ export function Home () {
 
 const Wrapper = styled.div`
     display: flex;
+    height: 100%;
 `;
 
 const Left = styled.div`
@@ -47,9 +52,18 @@ const Nav_Item = styled.div`
     font-size: 28px;
     margin-top: 12px;
     margin-bottom: 12px;
+    /* border-bottom: ${props => props.active ? "1px solid #dddddd" : "none"}; */
+    text-decoration: ${props => props.active ? "underline" : "none"};
     color: ${props => props.active ? "#dddddd" : "#8a8a8a"};
+    transition: 1s;
+    cursor: pointer;
+
+    :hover {
+        color: #c9c9c9;
+    }
 `;
 
 const Right = styled.div`
     width: 85%;
+    overflow-y: scroll;
 `;

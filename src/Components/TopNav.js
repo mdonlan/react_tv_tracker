@@ -3,6 +3,35 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+export function TopNav () {
+    const userLoggedIn = useSelector(state => state.userLoggedIn)
+    const loginStatusSet = useSelector(state => state.loginStatusSet)
+
+    return (
+        <Wrapper>
+            <Left>
+                <Button to={'/'}>Home</Button>
+            </Left>
+            <Center>
+                <Title>TV Tracker</Title>
+            </Center>
+            <Right>
+                {userLoggedIn && loginStatusSet &&
+                    <React.Fragment>
+                        <Button to={'/tracker'}>Tracker</Button>
+                        <Button to={'/logout'}>Logout</Button>
+                    </React.Fragment>
+                || loginStatusSet &&
+                    <React.Fragment>
+                        <Button to={'/login'}>Login</Button>
+                        <Button to={'/createAccount'}>Create Account</Button>
+                    </React.Fragment>
+                }
+            </Right>
+        </Wrapper>
+    )
+}
+
 const Wrapper = styled.div`
     height: 50px;
     width: 100%;
@@ -10,13 +39,30 @@ const Wrapper = styled.div`
     position: fixed;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     z-index: 2;
-`;
+`
 
 const StyledLink = styled(Link)`
     text-decoration: none;
     color: inherit;
-`;
+`
+
+const Left = styled.div`
+    margin-left: 20px;
+`
+const Right = styled.div`
+    margin-right: 20px;
+`
+
+const Center = styled.div`
+    font-size: 24px;
+    font-variant: small-caps;
+    font-style: italic;
+    text-decoration: underline;
+`
+
+const Title = styled.div``
 
 const Button = styled(StyledLink)`
     margin-left: 5px;
@@ -29,29 +75,4 @@ const Button = styled(StyledLink)`
     :hover {
         background: #444444;
     }
-`;
-
-function TopNav () {
-    const userLoggedIn = useSelector(state => state.userLoggedIn)
-    const loginStatusSet = useSelector(state => state.loginStatusSet)
-
-    return (
-        <Wrapper>
-            <Button to={'/'}>Home</Button>
-            {userLoggedIn && loginStatusSet &&
-                <React.Fragment>
-                    <Button to={'/logout'}>Logout</Button>
-                    <Button to={'/favorites'}>Favorites</Button>
-                    <Button to={'/tracker'}>Tracker</Button>
-                </React.Fragment>
-            || loginStatusSet &&
-                <React.Fragment>
-                    <Button to={'/login'}>Login</Button>
-                    <Button to={'/createAccount'}>Create Account</Button>
-                </React.Fragment>
-            }
-        </Wrapper>
-    );
-}
-
-export default TopNav;
+`

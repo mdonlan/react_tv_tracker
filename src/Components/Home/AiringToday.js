@@ -14,23 +14,23 @@ function AiringToday () {
 
     return (
         <Wrapper>
-            <Title>Airing Today</Title>
-            <ShowsContainer>
-                {airingToday.map((show) => {
-                    return (
-                        <Show key={show.id}>
-                            {show.poster_path &&
-                                <PosterImg src={`https://image.tmdb.org/t/p/w185/${show.poster_path}`}/>
-                            }
-                            {!show.poster_path &&
-                                <PosterImg src="https://via.placeholder.com/150" />
-                            }
+            {airingToday.map((show) => {
+                return (
+                    <Show key={show.id}>
+                        {show.backdrop_path &&
+                            <PosterImg src={`https://image.tmdb.org/t/p/w400/${show.backdrop_path}`}/>
+                        }
+                        {!show.backdrop_path &&
+                            <PosterImg src={'src/assets/not_found.png'}/>
+                        }
+                        <Text>
                             <Name>{show.name}</Name>
-                            <ClickZone to={`/show?name=${show.name.replace(/\s+/g, '-').toLowerCase()}&id=${show.id}`}/>
-                        </Show>
-                    )
-                })}
-            </ShowsContainer>
+                            <Vote_Score>{show.vote_average}</Vote_Score>
+                        </Text>
+                        <ClickZone to={`/show?name=${show.name.replace(/\s+/g, '-').toLowerCase()}&id=${show.id}`}/>
+                    </Show>
+                )
+            })}
         </Wrapper>
     );
 }
@@ -39,43 +39,37 @@ export default AiringToday;
 
 const Wrapper = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const Title = styled.div`
-    font-size: 32px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-`;
-
-const ShowsContainer = styled.div`
-    display: flex;
     flex-wrap: wrap;
-    max-width: 1000px;
 `;
 
 const Show = styled.div`
-    height: 325px;
-    width: 185px;
+    height: 275px;
+    width: 400px;
     background: #222222;
-    margin: 5px;
     position: relative;
+    border: solid 1px #2d2d2d;
 `;
 
 const PosterImg = styled.img`
-    width: 100%;
-    height: 278px;
+    width: 400px;
+    height: 225px;
 `;
+
+const Text = styled.div`
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 50px;
+    width: calc(100% - 10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
 
 const Name = styled.div`
     font-size: 18px;
-    height: 47px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 `;
+
+const Vote_Score = styled.div``
 
 const ClickZone = styled(Link)`
     height: 100%;
